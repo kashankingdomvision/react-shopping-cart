@@ -2,7 +2,6 @@ import React from 'react';
 import Home from './component/Home.js';
 import About from './component/About.js';
 // import Contact from './component/Contact.js';
-import { createBrowserHistory } from "history";
 import {
     Router,
     Switch,
@@ -10,7 +9,7 @@ import {
     Link
 } from "react-router-dom";
 
-const customHistory = createBrowserHistory();
+import customHistory from './History';
 
 class Routes extends React.Component {
     render() {
