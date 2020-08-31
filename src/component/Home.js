@@ -1,7 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { changeState } from '../store/action/action';
+// import { addToCart } from '../store/action/cartaction';
+// import { Button } from 'react-bootstrap';
+import { Container,Row} from 'react-bootstrap';
+import Product from './Product'
 
 class Home extends React.Component {
 
@@ -9,7 +13,10 @@ class Home extends React.Component {
     super(props);
     this.state = {
         userName: '',
-        userAge: ''
+        userAge: '',
+        cart:[
+          {id:4, title: 'Potatos', description: 'p for potato', price: 20}
+        ]
     }
 
     this._changeData = this._changeData.bind(this);
@@ -21,14 +28,70 @@ class Home extends React.Component {
     this.props.changeStateToReducer(this.state);
 }
 
+  dispachAddToCart(product) {
+    // console.log(product);
+
+    const existingProduct = this.state.cart.filter( cart => cart.id === product.id);
+    // console.log(existingProduct);
+
+    if(existingProduct.length > 0){
+      this.setState({ 
+        cart: [...this.state.cart,existingProduct[0]]
+      })
+    }
+    console.log(this.state.cart);
+
+
+
+    // console.log(p.id);
+    // this.props.addToCart(product);
+  }
+
   render() {
+    // console.log(this.props.products);
     return (
       <div>
-        <h1>Hello, Home Component</h1>;
+        {/* <h1>Hello, Home Component</h1>;
         <h4>Hello, {this.props.userName}</h4>
-        <h4>Hello, {this.props.userAge}</h4>
+        <h4>Hello, {this.props.userAge}</h4> */}
 
-        <input type="text"
+        {/* {this.props.products.map()} */}
+
+        {/* <div>
+          <ul>{this.props.products.map(products => <li key={products.id}> {products.title} </li>)}</ul>
+        </div> */}
+
+        {/* <Container>
+          <Row>
+          { this.props.products.map((product) => {
+            return (
+              <Col md={4} key={product.id}>
+                <h4>{product.id}</h4>
+                <h4>{product.title}</h4>
+                <p>Some Red apple</p>
+                <p>Price: INR</p>
+                <p><Button variant="primary">Add</Button></p>
+              </Col>
+            );
+          })}
+
+          </Row>
+        </Container> */}
+
+        <Container className="border" >
+          <Row >
+          { this.props.products.map((p) => {
+            return (
+              <Product  product={p} handleOnAdd={this.dispachAddToCart.bind(this)}  key={p.id} />
+            );
+          })}
+          </Row>
+        </Container>
+  
+
+        {/* <Product product={p} /> */}
+
+        {/* <input type="text"
           placeholder="Enter your name"
           value={this.userName}
           onChange={(e) => {
@@ -47,7 +110,7 @@ class Home extends React.Component {
         />
        <br />
       <button onClick={this._changeData}>Change Data in Store</button><br /><br />
-      <Link to='/about'>Go to About</Link>
+      <Link to='/about'>Go to About</Link> */}
 
       </div>
     );
@@ -58,8 +121,9 @@ class Home extends React.Component {
 // mapStateToProps: this is used to retrieve the store state
 function mapStateToProps(state) {
   return ({
-      userName: state.rootReducer.userName,
-      userAge: state.rootReducer.userAge
+    userName: state.rootReducer.userName,
+    userAge: state.rootReducer.userAge,
+    products: state.productreducer,
   })
 }
 
